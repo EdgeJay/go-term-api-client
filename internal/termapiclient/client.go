@@ -6,9 +6,7 @@ import (
 	"github.com/EdgeJay/go-term-api-client/internal/terminal"
 
 	"github.com/mum4k/termdash/cell"
-	"github.com/mum4k/termdash/container"
 	"github.com/mum4k/termdash/container/grid"
-	"github.com/mum4k/termdash/linestyle"
 	"github.com/mum4k/termdash/widgets/button"
 )
 
@@ -63,29 +61,25 @@ func (client *TermApiClient) addMenuBar(builder *grid.Builder) []error {
 
 	builder.Add(
 		grid.RowHeightPerc(
-			10,
-			grid.RowHeightPerc(
-				99,
-				items...,
-			),
+			5,
+			items...,
 		),
 	)
 
 	return errs
 }
 
+func (client *TermApiClient) addSpacerRow(builder *grid.Builder) {
+	builder.Add(
+		grid.RowHeightPerc(1),
+	)
+}
+
 func (client *TermApiClient) BuildGrid(builder *grid.Builder) error {
 
 	client.addMenuBar(builder)
-
-	builder.Add(
-		grid.RowHeightPerc(
-			90,
-			grid.Widget(nil,
-				container.Border(linestyle.Light),
-			),
-		),
-	)
+	// spacer to fill up remaining space
+	client.addSpacerRow(builder)
 
 	/*
 		b, err := button.New("hello world", func() error {
